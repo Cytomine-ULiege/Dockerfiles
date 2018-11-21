@@ -14,15 +14,21 @@
 # limitations under the License.
 #
 
-FROM cytomine/base:v1.2.0
-
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
 
-RUN apt-get update -y && apt-get install -y software-properties-common && \
+RUN apt-get update -y && \
+    apt-get install --no-install-recommends --no-install-suggests -y software-properties-common && \
     add-apt-repository -y ppa:webupd8team/java && \
     apt-get update -y && \
-    apt-get install -y oracle-java8-installer
+    apt-get install --no-install-recommends --no-install-suggests -y oracle-java8-installer && \
+    apt-get autoclean && apt-get --purge -y autoremove && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/cache/oracle-jdk8-installer
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 

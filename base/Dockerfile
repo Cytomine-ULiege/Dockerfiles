@@ -18,15 +18,15 @@
 
 FROM ubuntu:16.04
 
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
-
-RUN apt-get update -y && apt-get -y install \
-      build-essential \
-      locate \
-      net-tools \
-      unzip \
-      wget
+RUN apt-get update -y && apt-get install --no-install-recommends --no-install-suggests -y \
+        build-essential \
+        ca-certificates \
+        git \
+        locate \
+        net-tools \
+        unzip \
+        wget && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV LANG C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
-

@@ -14,15 +14,15 @@
 # limitations under the License.
 #
 
-FROM cytomine/java8:v1.2.0
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/java8:$FROM_VERSION
 
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+RUN apt-get -y update && \
+    apt-get --no-install-recommends --no-install-suggests -y install tomcat7 && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -y && \
-    apt-get install -y \
-	tomcat7
-
-ADD tomcat7.settings /tmp/tomcat7.settings
+COPY tomcat7.settings /tmp/tomcat7.settings
 
 RUN cat /tmp/tomcat7.settings > /etc/default/tomcat7
 
