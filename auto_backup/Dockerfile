@@ -14,27 +14,23 @@
 # limitations under the License.
 #
 
-FROM cytomine/base:v1.2.0
-
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 RUN apt-get update -y && apt-get -y install \
       postgresql-client \
-      bsd-mailx
+      bsd-mailx && \
+    rm -rf /var/lib/apt/lists/*
 
 # Add the backup script
-ADD script_backup_mongo.sh /tmp/script_backup_mongo.sh
-ADD mongodump /tmp/mongodump
-ADD mongorestore /tmp/mongorestore
+COPY script_backup_mongo.sh /tmp/script_backup_mongo.sh
+COPY mongodump /tmp/mongodump
+COPY mongorestore /tmp/mongorestore
+COPY script_backup_postgres.sh /tmp/script_backup_postgres.sh
+COPY crontab /tmp/crontab
 
-ADD script_backup_postgres.sh /tmp/script_backup_postgres.sh
-
-ADD crontab /tmp/crontab
-
-# Add the mail features
-RUN export DEBIAN_FRONTEND=noninteractive
-
-ADD deploy.sh /tmp/deploy.sh
+COPY deploy.sh /tmp/deploy.sh
 RUN chmod +x /tmp/deploy.sh
 
 ENTRYPOINT ["/tmp/deploy.sh"]

@@ -14,19 +14,34 @@
 # limitations under the License.
 #
 
-FROM cytomine/postgres:v2.0.0
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/postgres:$FROM_VERSION
 
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+#RUN apt-get update -y && apt-get -y install \
+#        postgis \
+#        postgresql-10-postgis-2.4 && \
+#    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -y && apt-get -y install postgis postgresql-10-postgis-2.4
+RUN apt-get update && \
+    apt-get -y -q install postgresql-9.3-postgis-2.1
+
+ADD postgis--2.1.5.sql /usr/share/postgresql/9.3/extension/postgis--2.1.5.sql
+
 
 USER postgres
 # Add the postgis extension to the `docker` database
-RUN    /etc/init.d/postgresql start &&\
-	psql -d docker -c "CREATE EXTENSION postgis;"  &&\
-	psql -d docker -c "GRANT ALL ON geometry_columns TO PUBLIC;"  &&\
-	psql -d docker -c "GRANT ALL ON geography_columns TO PUBLIC;"  &&\
+#RUN    /etc/init.d/postgresql start && \
+#	psql -d docker -c "CREATE EXTENSION postgis;"  && \
+#	psql -d docker -c "GRANT ALL ON geometry_columns TO PUBLIC;"  && \
+#	psql -d docker -c "GRANT ALL ON geography_columns TO PUBLIC;"  && \
+#	psql -d docker -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+RUN /etc/init.d/postgresql start && \
+	psql -d docker -f /usr/share/postgresql/9.3/extension/postgis--2.1.5.sql  && \
+	psql -d docker -c "GRANT ALL ON geometry_columns TO PUBLIC;"  && \
+	psql -d docker -c "GRANT ALL ON geography_columns TO PUBLIC;"  && \
 	psql -d docker -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+
 
 USER root
 

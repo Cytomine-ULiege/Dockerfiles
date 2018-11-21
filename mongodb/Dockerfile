@@ -14,8 +14,9 @@
 # limitations under the License.
 #
 
-FROM cytomine/base:v1.2.0
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 # Install MongoDB.
 RUN \
@@ -31,13 +32,13 @@ VOLUME ["/data/db"]
 # Define working directory.
 WORKDIR /data
 
+COPY deploy.sh /tmp/deploy.sh
+RUN chmod +x /tmp/deploy.sh
+
 # Expose ports.
 #   - 27017: process
 #   - 28017: http
 EXPOSE 27017
 EXPOSE 28017
-
-ADD deploy.sh /tmp/deploy.sh
-RUN chmod +x /tmp/deploy.sh
 
 ENTRYPOINT ["/tmp/deploy.sh"]
