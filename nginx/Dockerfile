@@ -14,33 +14,38 @@
 # limitations under the License.
 #
 
-FROM cytomine/base:v1.2.0
-
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 RUN apt-get -y update && apt-get install -y \
-        git \
         libpcre3 \
         libpcre3-dev \
         libssl-dev \
-        zlib1g-dev
+        zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/nginx
-WORKDIR /opt/nginx
-RUN wget http://nginx.org/download/nginx-1.10.1.tar.gz
-RUN tar -zxvf nginx-1.10.1.tar.gz
+RUN cd /tmp && \
+    git clone https://github.com/vkholodkov/nginx-upload-module.git  && \
+    cd nginx-upload-module/ && git checkout 2f67cde5a0aaf7cffd43a71f5c4b443698909f4a
 
-RUN git clone https://github.com/vkholodkov/nginx-upload-module.git
-RUN cd nginx-upload-module/ && git checkout 2f67cde5a0aaf7cffd43a71f5c4b443698909f4a
+ARG NGINX_VERSION=1.15.1
+RUN cd /tmp && \
+    wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
+    tar -zxvf nginx-$NGINX_VERSION.tar.gz && \
+    rm nginx-$NGINX_VERSION.tar.gz && \
+    cd /tmp/nginx-$NGINX_VERSION && \
+    ./configure --add-module=/tmp/nginx-upload-module --with-http_ssl_module && \
+    make && \
+    make install && \
+    rm -rf /tmp/*
 
-WORKDIR /opt/nginx/nginx-1.10.1
-RUN ./configure --add-module=/opt/nginx/nginx-upload-module --with-http_ssl_module && make && make install
+COPY deploy.sh /tmp/deploy.sh
+RUN chmod +x /tmp/deploy.sh
 
-# Expose ports.
 EXPOSE 80
 EXPOSE 443
 
-ADD deploy.sh /tmp/deploy.sh
-RUN chmod +x /tmp/deploy.sh
+STOPSIGNAL SIGTERM
 
 ENTRYPOINT ["/tmp/deploy.sh"]
