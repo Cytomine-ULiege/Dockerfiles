@@ -25,9 +25,6 @@ echo "  create 640 root root"           >> /etc/logrotate.d/iip
 echo "  su root root"                   >> /etc/logrotate.d/iip
 echo "}"                                >> /etc/logrotate.d/iip
 
-mkdir /tmp/uploaded
-chmod -R 777 /tmp/uploaded
-
 #fill start_iip.sh
 PORT=9000
 COUNTER=0

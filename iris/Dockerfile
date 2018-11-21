@@ -14,18 +14,17 @@
 # limitations under the License.
 #
 
-FROM cytomine/tomcat7:v1.2.0
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/tomcat7:$FROM_VERSION
 
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
-
-RUN rm -r /var/lib/tomcat7/webapps/* && cd /var/lib/tomcat7/webapps/  && wget -q https://github.com/cytomine/Cytomine-IRIS/releases/download/v1.0/iris.war -O ROOT.war
+RUN rm -r /var/lib/tomcat7/webapps/* && \
+    cd /var/lib/tomcat7/webapps/ && \
+    wget -q https://github.com/cytomine/Cytomine-IRIS/releases/download/v1.0/iris.war -O ROOT.war
 
 RUN touch /tmp/addHosts.sh
-ADD deploy.sh /tmp/deploy.sh
+COPY deploy.sh /tmp/deploy.sh
 RUN chmod +x /tmp/deploy.sh
-
-# Fix path
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 RUN mkdir -p /usr/share/tomcat7/.grails
 

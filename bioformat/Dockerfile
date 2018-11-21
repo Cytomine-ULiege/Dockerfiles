@@ -14,15 +14,17 @@
 # limitations under the License.
 #
 
-FROM cytomine/java8:v1.2.0
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/java8:$FROM_VERSION
 
-MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
+RUN cd /tmp/ && \
+    wget -q https://github.com/cytomine/Cytomine-tools/releases/download/v1.1/BioFormatStandAlone.tar.gz -O BioFormatStandAlone.tar.gz && \
+    tar -zxvf BioFormatStandAlone.tar.gz
 
-RUN cd /tmp/ && wget -q https://github.com/cytomine/Cytomine-tools/releases/download/v1.1/BioFormatStandAlone.tar.gz -O BioFormatStandAlone.tar.gz && tar -zxvf BioFormatStandAlone.tar.gz
-
-ADD crontab /tmp/crontab
-ADD check_bioformat.py /tmp/check_bioformat.py
-ADD deploy.sh /tmp/deploy.sh
+COPY crontab /tmp/crontab
+COPY check_bioformat.py /tmp/check_bioformat.py
+COPY deploy.sh /tmp/deploy.sh
 RUN chmod +x /tmp/deploy.sh
 
 ENTRYPOINT ["/tmp/deploy.sh"]

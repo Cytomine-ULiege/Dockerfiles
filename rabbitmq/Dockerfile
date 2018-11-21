@@ -14,17 +14,21 @@
 # limitations under the License.
 #
 
-FROM cytomine/base:v1.2.0
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
 
 RUN echo "deb http://www.rabbitmq.com/debian/ testing main"  | tee  /etc/apt/sources.list.d/rabbitmq.list > /dev/null
-RUN wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-RUN apt-key add rabbitmq-signing-key-public.asc && apt-get update && apt-get install rabbitmq-server -y --force-yes
+RUN wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc && \
+    apt-key add rabbitmq-signing-key-public.asc && \
+    apt-get update -y && \
+    apt-get install -y --force-yes rabbitmq-server && \
+    rm -rf /var/lib/apt/lists/*
 
-
-ADD run.sh /run.sh
-ADD set_rabbitmq_password.sh /set_rabbitmq_password.sh
+COPY run.sh /run.sh
+COPY set_rabbitmq_password.sh /set_rabbitmq_password.sh
 RUN chmod 755 ./*.sh
 
 EXPOSE 5672 15672

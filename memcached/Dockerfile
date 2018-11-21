@@ -14,7 +14,9 @@
 # limitations under the License.
 #
 
-FROM cytomine/base:v1.2.0
+ARG FROM_NAMESPACE
+ARG FROM_VERSION
+FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 MAINTAINER Cytomine SCRLFS "support@cytomine.coop"
 
@@ -24,11 +26,12 @@ RUN apt-get update -y && apt-get install -y \
       libsasl2-dev \
       memcached \
       pwgen \
-      sasl2-bin
+      sasl2-bin && \
+    rm -rf /var/lib/apt/lists/*
 
-ADD run.sh /run.sh
-RUN chmod 755 /*.sh
+COPY deploy.sh /tmp/deploy.sh
+RUN chmod +x /tmp/deploy.sh
 
 EXPOSE 11211
 
-CMD ["/run.sh"]
+ENTRYPOINT ["/tmp/deploy.sh"]
