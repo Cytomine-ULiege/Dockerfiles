@@ -19,5 +19,5 @@
 echo "Beginning of the postgres deployment"
 
 echo "run postgres"
-su postgres -c "/usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c config_file=/etc/postgresql/10/main/postgresql.conf"
+su postgres -c "/usr/lib/postgresql/$POSTGRES_VERSION/bin/postgres -D /var/lib/postgresql/$POSTGRES_VERSION/main -c config_file=/etc/postgresql/$POSTGRES_VERSION/main/postgresql.conf"
 

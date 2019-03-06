@@ -32,12 +32,14 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B97B0AFCAA
 
 # Update the Ubuntu and PostgreSQL repository indexes
 ARG POSTGRES_VERSION=9.3
+ENV POSTGRES_VERSION ${POSTGRES_VERSION}
 RUN apt-get update -y && apt-get install -y \
       make \
       postgresql-${POSTGRES_VERSION} \
       postgresql-client-${POSTGRES_VERSION} \
       postgresql-contrib-${POSTGRES_VERSION} \
-      postgresql-server-dev-${POSTGRES_VERSION} && \
+      postgresql-server-dev-${POSTGRES_VERSION} \
+      postgresql-${POSTGRES_VERSION}-orafce && \
     rm -rf /var/lib/apt/lists/*
 
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-10`` package when it was ``apt-get installed``
@@ -51,6 +53,7 @@ RUN /etc/init.d/postgresql start && \
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" && \
     createdb --encoding='utf-8' --template=template0 -O docker docker && \
     psql -d docker -c "CREATE EXTENSION ltree;" && \
+    psql -d docker -c "CREATE EXTENSION orafce;" && \
     psql -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='docker'" && \
     /etc/init.d/postgresql stop
 

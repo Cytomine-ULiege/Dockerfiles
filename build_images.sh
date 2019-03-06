@@ -8,7 +8,7 @@ docker build -t $NAMESPACE/tomcat7:$TOMCAT7_VERSION --build-arg FROM_NAMESPACE=$
 
 docker build -t $NAMESPACE/backup:$BACKUP_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$BASE_VERSION auto_backup/
 docker build -t $NAMESPACE/mongodb:$MONGODB_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$BASE_VERSION mongodb/
-docker build -t $NAMESPACE/postgres:$POSTGRES_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$BASE_VERSION postgres/
+docker build -t $NAMESPACE/postgres:$POSTGRES_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=v1.1.0 postgres/
 docker build -t $NAMESPACE/postgis:$POSTGIS_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$POSTGRES_VERSION postgis/
 
 docker build -t $NAMESPACE/memcached:$MEMCACHED_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$BASE_VERSION memcached/
@@ -22,4 +22,3 @@ docker build -t $NAMESPACE/slurm:$SLURM_VERSION slurm/
 docker build -t $NAMESPACE/retrieval:$RETRIEVAL_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$JAVA8_VERSION retrieval/
 docker build -t $NAMESPACE/bioformat:$BIOFORMAT_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$JAVA8_VERSION bioformat/
 docker build -t $NAMESPACE/iris:$IRIS_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$TOMCAT7_VERSION iris/
-#docker build -t $NAMESPACE/iip-cyto:$IIPCYTO_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$BASE_VERSION iipCyto/

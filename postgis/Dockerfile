@@ -24,9 +24,9 @@ FROM ${FROM_NAMESPACE}/postgres:$FROM_VERSION
 #    rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
-    apt-get -y -q install postgresql-9.3-postgis-2.1
+    apt-get -y -q install postgresql-${POSTGRES_VERSION}-postgis-2.1
 
-ADD postgis--2.1.5.sql /usr/share/postgresql/9.3/extension/postgis--2.1.5.sql
+ADD postgis--2.1.5.sql /usr/share/postgresql/${POSTGRES_VERSION}/extension/postgis--2.1.5.sql
 
 
 USER postgres
@@ -37,7 +37,7 @@ USER postgres
 #	psql -d docker -c "GRANT ALL ON geography_columns TO PUBLIC;"  && \
 #	psql -d docker -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
 RUN /etc/init.d/postgresql start && \
-	psql -d docker -f /usr/share/postgresql/9.3/extension/postgis--2.1.5.sql  && \
+	psql -d docker -f /usr/share/postgresql/${POSTGRES_VERSION}/extension/postgis--2.1.5.sql  && \
 	psql -d docker -c "GRANT ALL ON geometry_columns TO PUBLIC;"  && \
 	psql -d docker -c "GRANT ALL ON geography_columns TO PUBLIC;"  && \
 	psql -d docker -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
