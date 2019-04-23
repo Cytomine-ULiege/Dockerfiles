@@ -81,6 +81,7 @@ rm /tmp/crontab
 service rsyslog restart
 service cron restart
 
-tail -f /root/.pgpass
+touch /var/cytomine/backup_database.log
+tail -f /var/cytomine/backup_database.log
 
 
