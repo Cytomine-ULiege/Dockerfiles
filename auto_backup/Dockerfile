@@ -21,7 +21,8 @@ FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 RUN apt-get update -y && apt-get -y install \
       cron \
       postgresql-client \
-      bsd-mailx && \
+      bsd-mailx \
+      rsyslog && \
     rm -rf /var/lib/apt/lists/*
 
 # Add the backup script

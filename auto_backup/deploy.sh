@@ -78,8 +78,9 @@ echo "30 23 * * * /var/cytomine/script_backup.sh $RECEIVER_EMAIL" >> /tmp/cronta
 crontab /tmp/crontab
 rm /tmp/crontab
 
-echo "run cron"
-cron
+service rsyslog restart
+service cron restart
+
 tail -f /root/.pgpass
 
 
