@@ -19,6 +19,7 @@ ARG FROM_VERSION
 FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
 RUN apt-get update -y && apt-get -y install \
+      cron \
       postgresql-client \
       bsd-mailx && \
     rm -rf /var/lib/apt/lists/*
@@ -28,7 +29,6 @@ COPY script_backup_mongo.sh /tmp/script_backup_mongo.sh
 COPY mongodump /tmp/mongodump
 COPY mongorestore /tmp/mongorestore
 COPY script_backup_postgres.sh /tmp/script_backup_postgres.sh
-COPY crontab /tmp/crontab
 
 COPY deploy.sh /tmp/deploy.sh
 RUN chmod +x /tmp/deploy.sh

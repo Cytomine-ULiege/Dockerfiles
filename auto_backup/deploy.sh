@@ -62,8 +62,7 @@ echo "db:*:$DATABASE:$USER:$PASSWD" > /root/.pgpass
 chmod 600 /root/.pgpass
 
 echo "Add the backup script to crontab"
-# Add to crontab
-
+touch /tmp/crontab
 echo "#Setting env var" >> /tmp/crontab
 
 if [ "$SGBD" == "postgres" ] 

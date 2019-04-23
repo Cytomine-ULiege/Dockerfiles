@@ -19,12 +19,12 @@
 Backuplog="/var/cytomine/backup_database.log"
 BackupDatabase=$DATABASE
 BackupTime=`date '+%Y-%m-%d_%H-%M'`
-BackupTmpDir="/var/cytomine/backup_tmp"
-BackupFile="$BackupTmpDir/PRODbackup-$BackupDatabase-$BackupTime/"
 BackupOutDir="/backup/cytomine_database/$BackupDatabase"
+BackupFile="$BackupOutDir/PRODbackup-$BackupDatabase-$BackupTime/"
+
 BackupEmail="$1"
 
-mkdir -p ${BackupTmpDir}
+mkdir -p ${BackupOutDir}
 
 echo "Starting Backup of Cytomine Prod DB at : ${BackupTime}"             > ${Backuplog}
 echo "================================================================"         >> ${Backuplog}
@@ -36,12 +36,6 @@ echo "mongodump -h $CONTAINER -o ${BackupFile}"                                >
 mongodump -h $CONTAINER -o ${BackupFile}                                       >> ${Backuplog} 2>&1
 MGDumpRC=$?
 echo "  EXIT_CODE:${MGDumpRC}"                                                  >> ${Backuplog}
-echo ""                                                                         >> ${Backuplog}
-echo ""                                                                         >> ${Backuplog}
-echo "Move file from ${BackupTmpDir} to ${BackupOutDir}..."                  >> ${Backuplog}
-mkdir -p ${BackupOutDir}
-echo "mv ${BackupFile} ${BackupOutDir}"                                          >> ${Backuplog}
-mv ${BackupFile} ${BackupOutDir}                                                 >> ${Backuplog}
 echo ""                                                                         >> ${Backuplog}
 echo "Removing backup files older than 7 days ..."                              >> ${Backuplog}
 echo ""                                                                         >> ${Backuplog}
