@@ -20,7 +20,5 @@ docker push $NAMESPACE/slurm:$SLURM_VERSION
 
 # Temporary
 docker push $NAMESPACE/retrieval:$RETRIEVAL_VERSION
-docker push $NAMESPACE/bioformat:$BIOFORMAT_VERSION
 docker push $NAMESPACE/iris:$IRIS_VERSION
-#docker push $NAMESPACE/iip-cyto:$IIPCYTO_VERSION
 

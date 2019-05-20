@@ -30,9 +30,7 @@ Cytomine component Dockerfiles:
 * `memcached` (inherits `base`)
 * `nginx` (inherits `base`)
 * `iip-jp2000` (inherits `base`)
-* `iip-cyto` (inherits `base`)
 * `retrieval` (inherits `java8`)
-* `bioformat` (inherits `java8`)
 * `iris` (inherits `tomcat7`)
 
 ### Dockerfiles outside this repository
@@ -40,6 +38,8 @@ Cytomine component Dockerfiles:
 * `core` (inherits `tomcat7`) - See [Cytomine-core repository](https://github.com/Cytomine-ULiege/Cytomine-core)
 * `ims` (inherits `tomcat7`) - See [Cytomine-IMS repository](https://github.com/Cytomine-ULiege/Cytomine-IMS)
 * `software_router` (inherits `java8`) - See [Cytomine-software-router repository](https://github.com/Cytomine-ULiege/Cytomine-software-router)
+* `bioformat` (inherits `java8`) - See [Cytomine-BioFormats repository](https://github.com/Cytomine-ULiege/Cytomine-BioFormats)
+* `iip-cyto` (inherits `base`) - See [Cytomine iipsrv repository](https://github.com/Cytomine-ULiege/iipsrv)
 
 Base Dockerfiles for Cytomine software:
 * `software-python2-base` (inherits official `python`) - See [Cytomine-python-client repository](https://github.com/Cytomine-ULiege/Cytomine-python-client)
