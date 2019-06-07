@@ -29,13 +29,13 @@ RUN cd /tmp && \
     git clone https://github.com/vkholodkov/nginx-upload-module.git  && \
     cd nginx-upload-module/ && git checkout 2f67cde5a0aaf7cffd43a71f5c4b443698909f4a
 
-ARG NGINX_VERSION=1.15.1
+ARG NGINX_VERSION=1.17.0
 RUN cd /tmp && \
     wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
     tar -zxvf nginx-$NGINX_VERSION.tar.gz && \
     rm nginx-$NGINX_VERSION.tar.gz && \
     cd /tmp/nginx-$NGINX_VERSION && \
-    ./configure --add-module=/tmp/nginx-upload-module --with-http_ssl_module && \
+    ./configure --add-module=/tmp/nginx-upload-module --with-http_ssl_module --with-http_v2_module && \
     make && \
     make install && \
     rm -rf /tmp/*
