@@ -23,24 +23,11 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
         ca-certificates \
-        make \
         postgresql-server-dev-$PG_MAJOR \
         postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR=$POSTGIS_VERSION \
         postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts=$POSTGIS_VERSION \
         postgis=$POSTGIS_VERSION \
-        wget \
-        unzip \
     && rm -rf /var/lib/apt/lists/*
-
-ENV KMEANS_VERSION=1.1.0
-
-RUN cd /tmp && \
-    wget http://api.pgxn.org/dist/kmeans/${KMEANS_VERSION}/kmeans-${KMEANS_VERSION}.zip && \
-    unzip kmeans-${KMEANS_VERSION}.zip && \
-    rm kmeans-${KMEANS_VERSION}.zip && \
-    cd /tmp/kmeans-${KMEANS_VERSION} && \
-    make && \
-    make install
 
 RUN mkdir -p /docker-entrypoint-initdb.d
 COPY init-db.sh /docker-entrypoint-initdb.d/init-db.sh

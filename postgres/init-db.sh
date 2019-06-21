@@ -30,5 +30,3 @@ psql -v ON_ERROR_STOP=1 --username "docker" --dbname "docker" <<-EOSQL
 	GRANT ALL ON geography_columns TO PUBLIC;
 	GRANT ALL ON spatial_ref_sys TO PUBLIC;"
 EOSQL
-
-psql -v ON_ERROR_STOP=1 --username "docker" --dbname "docker" -f /tmp/kmeans-${KMEANS_VERSION}/kmeans.sql
