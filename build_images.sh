@@ -19,6 +19,4 @@ docker build -t $NAMESPACE/slurm:$SLURM_VERSION slurm/
 
 # Temporary
 docker build -t $NAMESPACE/retrieval:$RETRIEVAL_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$JAVA8_VERSION retrieval/
-docker build -t $NAMESPACE/bioformat:$BIOFORMAT_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$JAVA8_VERSION bioformat/
 docker build -t $NAMESPACE/iris:$IRIS_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$TOMCAT7_VERSION iris/
-#docker build -t $NAMESPACE/iip-cyto:$IIPCYTO_VERSION --build-arg FROM_NAMESPACE=$NAMESPACE --build-arg FROM_VERSION=$BASE_VERSION iipCyto/
