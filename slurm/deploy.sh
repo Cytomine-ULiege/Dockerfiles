@@ -4,6 +4,11 @@ bash /tmp/addHosts.sh
 
 mkdir -p /home/cytomine/.ssh
 
+if [ -f "/data/ssh/slurm.pub"  ]
+then
+    cp "/data/ssh/slurm.pub" /home/cytomine/.ssh/authorized_keys
+fi
+
 if [ ! -f "/var/lib/mysql/ibdata1" ]; then
     echo "- Initializing database"
     /usr/bin/mysql_install_db &> /dev/null
