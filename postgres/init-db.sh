@@ -27,6 +27,6 @@ psql -v ON_ERROR_STOP=1 --username "docker" --dbname "docker" <<-EOSQL
     CREATE EXTENSION IF NOT EXISTS ltree;
 
     GRANT ALL ON geometry_columns TO PUBLIC;
-	GRANT ALL ON geography_columns TO PUBLIC;
-	GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+  	GRANT ALL ON geography_columns TO PUBLIC;
+	  GRANT ALL ON spatial_ref_sys TO PUBLIC;
 EOSQL
