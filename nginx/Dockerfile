@@ -40,6 +40,14 @@ RUN cd /tmp && \
     make install && \
     rm -rf /tmp/*
 
+RUN mkdir /cache
+
+ARG VERSION=1.0.0
+ARG NAMESPACE=Neubias-WG5
+ARG RELEASE_PATH=https://github.com/${NAMESPACE}/Biaflows-Web-UI/releases/download/v${VERSION}
+ADD ${RELEASE_PATH}/Biaflows-Web-UI-${VERSION}.zip /tmp/web-ui.zip
+RUN cd /tmp && unzip web-ui.zip && mv dist /web-ui && rm -rf /tmp/* && chmod -R 777 /web-ui
+
 COPY deploy.sh /tmp/deploy.sh
 RUN chmod +x /tmp/deploy.sh
 
