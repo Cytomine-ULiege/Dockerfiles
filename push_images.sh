@@ -9,7 +9,6 @@ docker push $NAMESPACE/tomcat7:$TOMCAT7_VERSION
 docker push $NAMESPACE/backup:$BACKUP_VERSION
 docker push $NAMESPACE/mongodb:$MONGODB_VERSION
 docker push $NAMESPACE/postgres:$POSTGRES_VERSION
-docker push $NAMESPACE/postgis:$POSTGIS_VERSION
 
 docker push $NAMESPACE/memcached:$MEMCACHED_VERSION
 docker push $NAMESPACE/rabbitmq:$RABBITMQ_VERSION
