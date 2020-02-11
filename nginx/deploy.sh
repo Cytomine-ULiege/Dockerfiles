@@ -16,6 +16,7 @@
 #
 
 mkdir -p /tmp/uploaded && chmod 777 /tmp/uploaded
+mkdir -p /cache && chmod 777 /cache
 
 echo "/usr/local/nginx/logs/access.log {"   > /etc/logrotate.d/nginx
 echo "  copytruncate"                      >> /etc/logrotate.d/nginx
