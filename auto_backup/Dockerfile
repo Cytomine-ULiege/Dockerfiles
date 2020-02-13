@@ -18,9 +18,12 @@ ARG FROM_NAMESPACE
 ARG FROM_VERSION
 FROM ${FROM_NAMESPACE}/base:$FROM_VERSION
 
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
 RUN apt-get update -y && apt-get -y install \
       cron \
-      postgresql-client \
+      postgresql-client-11 \
       bsd-mailx \
       rsyslog && \
     rm -rf /var/lib/apt/lists/*
